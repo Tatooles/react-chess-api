@@ -1,6 +1,6 @@
 const express = require('express');
 const stockfish = require('stockfish');
-const engine = await stockfish();
+const engine = stockfish();
 const app = express();
 const PORT = 8080;
 
@@ -8,20 +8,18 @@ app.use(express.json());
 
 engine.onmessage = function (event) {
     //NOTE: Web Workers wrap the response in an object.
-    console.log(event.data ? event.data : event);
+    // console.log(event);
+    if (typeof event == 'string' && event.startsWith('bestmove')) {
+        console.log(event);
+    }
 };
 
 
-console.log(engine);
-// engine.postMessage("uci");
+engine.postMessage("uci");
+engine.postMessage("ucinewgame");
+engine.postMessage("position fen 4k2r/6r1/8/8/8/8/3R4/R3K3 w Qk - 0 1");
+engine.postMessage("go depth 18");
 
-// run_engine();
-
-// const run_engine = async () => {
-//     await engine().then((val) => {
-
-//     })
-// }
 
 app.get('/bestmove', (req, res) => {
     // Probably want to use a get with query params
