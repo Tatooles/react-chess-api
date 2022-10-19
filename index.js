@@ -6,19 +6,11 @@ const PORT = 8080;
 
 app.use(express.json());
 
-engine.onmessage = function (event) {
-    //NOTE: Web Workers wrap the response in an object.
-    // console.log(event);
+engine.onmessage = (event) => {
     if (typeof event == 'string' && event.startsWith('bestmove')) {
         console.log(event);
     }
 };
-
-
-engine.postMessage("uci");
-engine.postMessage("ucinewgame");
-engine.postMessage("position fen 4k2r/6r1/8/8/8/8/3R4/R3K3 w Qk - 0 1");
-engine.postMessage("go depth 18");
 
 
 app.get('/bestmove', (req, res) => {
@@ -31,20 +23,39 @@ app.get('/bestmove', (req, res) => {
     });
 });
 
-app.post('/makemove/:move', (req, res) => {
-    const { move } = req.params;
-    const { notes } = req.body;
+app.post('/', (req, res) => {
+    const position = req.body.position;
+    let difficulty = req.body.positon;
+    let depth = req.body.depth;
 
-    if (!notes) {
-        res.status(418).send({ message: "Note is required!" });
+    if (!position) {
+        res.status(418).send({ message: "Position is required!" });
     }
 
-    res.send({
-        move: `Your move is ${move} and the note is ${notes}`
-    });
+    if (!difficulty) {
+        console.log("no difficulty set");
+        // Set default difficulty
+    }
+
+    if (!depth) {
+        depth = 18;
+    }
+
+    engine.onmessage = (event) => {
+        if (typeof event == 'string' && event.startsWith('bestmove')) {
+            console.log(event);
+            res.send({
+                move: event.slice(9)
+            });
+        }
+    };
+
+    engine.postMessage("uci");
+    engine.postMessage("ucinewgame");
+    engine.postMessage(`position fen ${position}`);
+    engine.postMessage(`go depth ${depth}`);
 });
 
 app.listen(
-    PORT,
-    () => console.log(`Server running on ${PORT}`)
+    PORT, () => console.log(`Server running on ${PORT}`)
 );
