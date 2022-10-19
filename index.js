@@ -7,9 +7,6 @@ const PORT = 8080;
 app.use(express.json());
 
 engine.onmessage = (event) => {
-    if (typeof event == 'string' && event.startsWith('bestmove')) {
-        console.log(event);
-    }
 };
 
 
@@ -29,7 +26,8 @@ app.post('/', (req, res) => {
     let depth = req.body.depth;
 
     if (!position) {
-        res.status(418).send({ message: "Position is required!" });
+        res.status(400).send({ message: "Position is required!" });
+        return;
     }
 
     if (!difficulty) {
