@@ -3,27 +3,25 @@ const stockfish = require('stockfish');
 const engine = stockfish();
 const app = express();
 const PORT = 8080;
+const cors = require('cors');
 
 app.use(express.json());
 
+app.use(
+    cors({
+        origin: 'http://localhost:5173'
+    })
+)
+
 engine.onmessage = (event) => {
 };
-
-
-app.get('/bestmove', (req, res) => {
-    // Probably want to use a get with query params
-    // https://stackoverflow.com/questions/6912584/how-to-get-get-query-string-variables-in-express-js-on-node-js
-    // Then use UCI commands to generate the best move and return that
-    res.status(200).send({
-        piece: 'pawn',
-        square: 'e4'
-    });
-});
 
 app.post('/', (req, res) => {
     const position = req.body.position;
     let difficulty = req.body.positon;
     let depth = req.body.depth;
+
+    console.log(req.body);
 
     if (!position) {
         res.status(400).send({ message: "Position is required!" });
