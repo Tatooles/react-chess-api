@@ -1,25 +1,9 @@
 {
-  "name": "react-chess-backend",
+  "name": "aws-node-express-api-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tatooles/react-chess-backend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Tatooles/react-chess-backend/issues"
-  },
-  "homepage": "https://github.com/Tatooles/react-chess-backend#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "stockfish": "^10.0.2"
+    "express": "^4.17.1",
+    "serverless-http": "^2.7.0"
   }
 }
