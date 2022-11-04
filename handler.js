@@ -3,8 +3,11 @@ const express = require("express");
 const stockfish = require('stockfish');
 const engine = stockfish();
 const app = express();
+const cors = require('cors');
 
 app.use(express.json());
+
+app.use(cors())
 
 engine.onmessage = (event) => {
 };
