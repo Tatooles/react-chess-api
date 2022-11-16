@@ -11,5 +11,7 @@ provider:
 functions:
   api:
     handler: handler.handler
+    url:
+      cors: true
     events:
       - httpApi: '*'
