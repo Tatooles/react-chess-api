@@ -1,0 +1,18 @@
+org: tatooles
+app: aws-node-express-api-project
+service: aws-node-express-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-2
+
+functions:
+  api:
+    handler: handler.handler
+    url:
+      cors: true
+    timeout: 20
+    events:
+      - httpApi: '*'
